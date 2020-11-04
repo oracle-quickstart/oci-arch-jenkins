@@ -26,7 +26,8 @@ resource "oci_core_instance" "JenkinsBastion" {
 # DEPLOY THE JENKINS CLUSTER
 # ------------------------------------------------------------------------------
 module "jenkins" {
-  source              = "./modules/jenkins"
+#  source              = "./modules/jenkins"
+  source              = "github.com/oracle-quickstart/oci-jenkins" 
   compartment_ocid    = var.compartment_ocid
   jenkins_version     = var.jenkins_version
   jenkins_password    = var.jenkins_password

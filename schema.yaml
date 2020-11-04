@@ -68,7 +68,7 @@ variables:
 
   jenkins_password:
     type: password
-    default: "Admin123"
+    default: ""
     required: true
     title: "Jenkins admin user password"
     description: "Enter password for Jenkins admin user"
