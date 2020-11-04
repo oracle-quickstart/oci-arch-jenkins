@@ -1,47 +1,19 @@
-###
-# compute.tf outputs
-###
-
-output "instance_id" {
-  value = oci_core_instance.simple-vm.id
+output "master_private_ip" {
+  value = module.jenkins.master_private_ip
 }
 
-output "instance_public_ip" {
-  value = oci_core_instance.simple-vm.public_ip
+output "slave_private_ips" {
+  value = module.jenkins.slave_private_ips
 }
 
-output "instance_private_ip" {
-  value = oci_core_instance.simple-vm.private_ip
+output "jenkins_login_url" {
+  value = "http://${oci_load_balancer.JenkinsLB.ip_addresses[0]}"
 }
 
-output "instance_https_url" {
-  value = (local.is_public_subnet ? "https://${oci_core_instance.simple-vm.public_ip}" : "https://${oci_core_instance.simple-vm.private_ip}")
+output "generated_ssh_private_key" {
+  value = tls_private_key.public_private_key_pair.private_key_pem
 }
 
-###
-# network.tf outputs
-###
-
-output "vcn_id" {
-  value = ! local.use_existing_network ? join("", oci_core_vcn.simple.*.id) : var.vcn_id
-}
-
-output "subnet_id" {
-  value = ! local.use_existing_network ? join("", oci_core_subnet.simple_subnet.*.id) : var.subnet_id
-}
-
-output "vcn_cidr_block" {
-  value = ! local.use_existing_network ? join("", oci_core_vcn.simple.*.cidr_block) : var.vcn_cidr_block
-}
-
-output "nsg_id" {
-  value = join("", oci_core_network_security_group.simple_nsg.*.id)
-}
-
-###
-# image_subscription.tf outputs
-###
-
-output "subscription" {
-  value = data.oci_core_app_catalog_subscriptions.mp_image_subscription.*.app_catalog_subscriptions
+output "bastion_public_ip" {
+  value = data.oci_core_vnic.bastion_VNIC1.public_ip_address
 }
