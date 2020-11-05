@@ -142,21 +142,21 @@ variables:
     type: string
     title: "Bastion Server Shape"
     description: "Bastion Server Shape"
-    default: "VM.Standard1.4"
+    default: "VM.Standard2.4"
     required: false
 
   master_shape:
     type: string
     title: "Jenkins Master Server Shape"
     description: "Jenkins Master Server Shape"
-    default: "VM.Standard1.4"
+    default: "VM.Standard2.4"
     required: false
 
   slave_shape:
     type: string
     title: "Jenkins Slave Server Shape"
     description: "Jenkins Slave Server Shape"
-    default: "VM.Standard1.4"
+    default: "VM.Standard2.4"
     required: false
 
   bastion_user:

@@ -69,15 +69,15 @@ variable "bastion_display_name" {
 }
 
 variable "bastion_shape" {
-  default = "VM.Standard1.4"
+  default = "VM.Standard2.4"
 }
 
 variable "master_shape" {
-  default = "VM.Standard1.4"
+  default = "VM.Standard2.4"
 }
 
 variable "slave_shape" {
-  default = "VM.Standard1.4"
+  default = "VM.Standard2.4"
 }
 
 variable "bastion_user" {
