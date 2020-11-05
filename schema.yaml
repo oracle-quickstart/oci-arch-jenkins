@@ -14,12 +14,13 @@ variableGroups:
   visible: false
   variables:
   - tenancy_ocid
-  - compartment_ocid
-  - region
+
 
 - title: "Required Configuration"
   visible: true  
   variables:
+  - compartment_ocid
+  - region
   - jenkins_password
 
 - title: "Optional Configuration"
@@ -138,21 +139,21 @@ variables:
     required: false
 
   bastion_shape:
-    type: oci:core:instanceshape:name
+    type: string
     title: "Bastion Server Shape"
     description: "Bastion Server Shape"
     default: "VM.Standard1.4"
     required: false
 
   master_shape:
-    type: oci:core:instanceshape:name
+    type: string
     title: "Jenkins Master Server Shape"
     description: "Jenkins Master Server Shape"
     default: "VM.Standard1.4"
     required: false
 
   slave_shape:
-    type: oci:core:instanceshape:name
+    type: string
     title: "Jenkins Slave Server Shape"
     description: "Jenkins Slave Server Shape"
     default: "VM.Standard1.4"
