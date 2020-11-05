@@ -51,21 +51,21 @@ variables:
     description: "The Oracle Cloud Identifier (OCID) for your tenancy"
     type: string
     required: true
-    visible: false
+    visibile: false
 
   region:
     title: "Region"
     description: "Region where you deploy your Jenkins"
     type: oci:identity:region:name
     required: true
-    visible: false
+    visibile: true
 
   compartment_ocid:
     title: "Compartment OCID"
     description: "Comparment where you deploy your Jenkins"
     type: oci:identity:compartment:id
     required: true
-    visibile: false
+    visibile: true
 
   jenkins_password:
     type: password
