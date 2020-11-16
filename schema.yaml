@@ -1,9 +1,9 @@
 # Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-title: "Jenkins in master/agent mode"
+title: "Jenkins in master-agent mode"
 description: "Host Jenkins on Oracle Cloud Infrastructure to centralize your build automation and scale your deployment as the needs of your software projects grow."
-stackDescription: "Jenkins in master/agent mode"
+stackDescription: "Jenkins in master-agent mode"
 informationalText: "To connect to the Jenkins UI, copy jenkins_login_url and paste it to your web browser."
 schemaVersion: 1.1.0
 version: "20201028"
@@ -180,7 +180,7 @@ variables:
     required: false
      
   listener_private_key:
-    type: string
+    type: text
     title: "Load Balanacer Listener Private Key"
     description: "Load Balanacer Listener Private Key"
     required: false
