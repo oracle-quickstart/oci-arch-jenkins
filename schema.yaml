@@ -174,7 +174,7 @@ variables:
     required: false
 
   listener_ca_certificate:
-    type: string
+    type: text
     title: "Load Balanacer Listener CA Certificate"
     description: "Load Balanacer Listener CA Certificate"
     required: false
@@ -186,7 +186,7 @@ variables:
     required: false
 
   listener_public_certificate:
-    type: string
+    type: text
     title: "Load Balanacer Listener Public Certificate"
     description: "Load Balanacer Listener Public Certificate"
     required: false
