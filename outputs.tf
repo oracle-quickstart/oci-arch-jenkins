@@ -7,7 +7,7 @@ output "slave_private_ips" {
 }
 
 output "jenkins_login_url" {
-  value = "http://${oci_load_balancer.JenkinsLB.ip_addresses[0]}"
+  value = "http://${oci_load_balancer.JenkinsLB.ip_addresses[0]}:${var.lb_http_port}/"
 }
 
 output "generated_ssh_private_key" {
