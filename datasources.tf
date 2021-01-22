@@ -14,7 +14,7 @@ data "template_file" "ad_names" {
 }
 
 data "oci_core_vnic_attachments" "bastion_VNIC1_attach" {
-  availability_domain = data.template_file.ad_names[var.bastion_ad_index].rendered
+  availability_domain = var.availablity_domain_name
   compartment_id      = var.compartment_ocid
   instance_id         = oci_core_instance.JenkinsBastion.id
 }
