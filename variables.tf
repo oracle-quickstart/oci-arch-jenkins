@@ -4,6 +4,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
+variable "availablity_domain_name" {}
 
 variable "vcn_cidr" {
   default = "10.0.0.0/16"
