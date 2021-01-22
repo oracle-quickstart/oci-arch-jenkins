@@ -199,7 +199,7 @@ resource "oci_core_subnet" "JenkinsSlaveSubnetAD" {
 resource "oci_core_subnet" "JenkinsBastion" {
 #  availability_domain = data.template_file.ad_names[var.bastion_ad_index].rendered
   compartment_id      = var.compartment_ocid
-  display_name        = "JenkinsBastion${var.bastion_ad_index + 1}"
+  display_name        = "JenkinsBastion"
   cidr_block          = cidrsubnet(local.bastion_subnet_prefix, 4, 0)
   security_list_ids   = [oci_core_security_list.JenkinsBastion.id]
   vcn_id              = oci_core_virtual_network.JenkinsVCN.id
