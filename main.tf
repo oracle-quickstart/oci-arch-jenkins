@@ -2,7 +2,7 @@
 # Setup Bastion Host
 # ------------------------------------------------------------------------------
 resource "oci_core_instance" "JenkinsBastion" {
-  availability_domain = data.template_file.ad_names[var.bastion_ad_index].rendered
+  availability_domain = var.availablity_domain_name
   compartment_id      = var.compartment_ocid
   display_name        = var.bastion_display_name
   shape               = var.bastion_shape
@@ -17,7 +17,8 @@ resource "oci_core_instance" "JenkinsBastion" {
   }
 
   source_details {
-    source_id   = data.oci_core_images.InstanceImageOCID.images[0].id
+#    source_id   = data.oci_core_images.InstanceImageOCID.images[0].id
+    source_id   = lookup(data.oci_core_images.InstanceImageOCID.images[0], "id")
     source_type = "image"
   }
 }
@@ -33,7 +34,8 @@ module "jenkins" {
   jenkins_password    = var.jenkins_password
   master_ad           = data.template_file.ad_names[0].rendered
   master_subnet_id    = oci_core_subnet.JenkinsMasterSubnetAD.id
-  master_image_id     = data.oci_core_images.InstanceImageOCID.images[0].id
+#  master_image_id     = data.oci_core_images.InstanceImageOCID.images[0].id
+  master_image_id     = lookup(data.oci_core_images.InstanceImageOCID.images[0], "id")
   master_shape        = var.master_shape
   plugins             = var.plugins
   slave_count         = var.slave_count

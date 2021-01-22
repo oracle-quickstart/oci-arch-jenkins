@@ -14,13 +14,14 @@ variableGroups:
   visible: false
   variables:
   - tenancy_ocid
+  - region
 
 
 - title: "Required Configuration"
   visible: true  
   variables:
   - compartment_ocid
-  - region
+  - availablity_domain_name 
   - jenkins_password
 
 - title: "Optional Configuration"
@@ -33,13 +34,13 @@ variableGroups:
   - jnlp_port
   - jenkins_version
   - slave_count
-  - OsImage
+  - instance_os
+  - linux_os_version
   - bastion_display_name
   - bastion_shape
   - master_shape
   - slave_shape
   - bastion_user
-  - bastion_ad_index
   - listener_ca_certificate
   - listener_private_key
   - listener_public_certificate
@@ -67,6 +68,16 @@ variables:
     required: true
     visibile: true
 
+  availablity_domain_name:
+    type: oci:identity:availabilitydomain:name
+    required: true
+    visibile: true
+    title: "Availability Domain to be chosen"
+    description: "Choose Availability Domain where your Bastion will be deployed."
+    dependsOn:
+      regionName: ${region}
+      compartmentId: ${compartment_ocid}
+
   jenkins_password:
     type: password
     default: ""
@@ -93,6 +104,9 @@ variables:
     title: "Load Balanacer HTTP Port"
     description: "Load Balancer HTTP Port"
     default: 80
+    minimum: 1
+    maximum: 65535
+    multipleOf: 1
     type: number
     required: false
 
@@ -100,6 +114,9 @@ variables:
     title: "HTTP Port"
     description: "HTTP Port for Jenkins Server"
     default: 8080
+    minimum: 1
+    maximum: 65535
+    multipleOf: 1
     type: number
     required: false
   
@@ -107,6 +124,9 @@ variables:
     title: "JNLP Port"
     description: "JNLP Port for Jenkins Server"
     default: 49187
+    minimum: 1
+    maximum: 65535
+    multipleOf: 1
     type: number
     required: false
 
@@ -114,22 +134,40 @@ variables:
     title: "Jenkins version"
     description: "Jenkins software version"
     default: "2.249.1"
-    type: string
+    type: enum
+    enum: 
+      - "2.249.1"
     required: false
 
   slave_count:
     title: "Number of Jenkins Slave Servers"
     description: "Number of Jenkins Slave Servers"
     default: 2
+    minimum: 2
+    maximum: 1000
+    multipleOf: 1
     type: number
     required: false
 
-  OsImage:
-    title: "Operating System Image"
-    description: "Operating System Image"
-    default: "Oracle-Linux-7.8-2020.09.23-0"
-    type: string
-    required: false    
+  instance_os:
+    type: enum
+    required: false
+    visible: false
+    title: "Instance OS"
+    description: "An Operating System that determines the operating system for Jenkins host."
+    default: "Oracle Linux"
+    enum:
+      - "Oracle Linux"
+
+  linux_os_version:
+    type: enum
+    required: false
+    visible: false
+    title: "Instance OS version"
+    description: "An Operating System version that determines the operating system version for Jenkins host."
+    default: "7.8"
+    enum:
+      - "7.8"  
 
   bastion_display_name:
     title: "Name of Bastion Server"
@@ -139,25 +177,31 @@ variables:
     required: false
 
   bastion_shape:
-    type: string
+    type: oci:core:instanceshape:name
     title: "Bastion Server Shape"
     description: "Bastion Server Shape"
     default: "VM.Standard2.4"
     required: false
+    dependsOn:
+      compartmentId: ${compartment_ocid}
 
   master_shape:
-    type: string
+    type: oci:core:instanceshape:name
     title: "Jenkins Master Server Shape"
     description: "Jenkins Master Server Shape"
     default: "VM.Standard2.4"
     required: false
+    dependsOn:
+      compartmentId: ${compartment_ocid}
 
   slave_shape:
-    type: string
+    type: oci:core:instanceshape:name
     title: "Jenkins Slave Server Shape"
     description: "Jenkins Slave Server Shape"
     default: "VM.Standard2.4"
     required: false
+    dependsOn:
+      compartmentId: ${compartment_ocid}
 
   bastion_user:
     type: string
@@ -165,13 +209,7 @@ variables:
     description: "Bastion Server OS User"
     default: "opc"
     required: false
-
-  bastion_ad_index:
-    title: "Index of Availability Domain for Bastion Server"
-    description: "Index of Availability Domain for Bastion Server"
-    default: 0
-    type: number
-    required: false
+    visible: false
 
   listener_ca_certificate:
     type: text
@@ -191,8 +229,8 @@ variables:
     description: "Load Balanacer Listener Public Certificate"
     required: false
 
-
 outputs:
+
   bastion_public_ip:
     title: "Bastion Server Public IP"
     displayText: "Bastion Server Public IP"

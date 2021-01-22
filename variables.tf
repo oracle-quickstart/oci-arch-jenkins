@@ -1,16 +1,9 @@
-variable "tenancy_ocid" {
-}
+variable "tenancy_ocid" {}
 variable "user_ocid" {}
-
 variable "fingerprint" {}
-
 variable "private_key_path" {}
-
-variable "region" {
-}
-
-variable "compartment_ocid" {
-}
+variable "region" {}
+variable "compartment_ocid" {}
 
 variable "vcn_cidr" {
   default = "10.0.0.0/16"
@@ -105,7 +98,17 @@ variable "listener_public_certificate" {
   default = ""
 }
 
-variable "OsImage" {
-  default = "Oracle-Linux-7.8-2020.09.23-0"
+#variable "OsImage" {
+#  default = "Oracle-Linux-7.8-2020.09.23-0"
+#}
+
+variable "instance_os" {
+  description = "Operating system for compute instances"
+  default     = "Oracle Linux"
+}
+
+variable "linux_os_version" {
+  description = "Operating system version for all Linux instances"
+  default     = "7.8"
 }
 

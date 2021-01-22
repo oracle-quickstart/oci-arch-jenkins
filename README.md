@@ -61,6 +61,9 @@ compartment_ocid = "<compartment_ocid>"
 
 # Jenkins password
 jenkins_password = "<jenkins_password>"
+ 
+# Availablity Domain (bastion host)
+availablity_domain_name = "<availablity_domain_name>"
 
 ````
 
