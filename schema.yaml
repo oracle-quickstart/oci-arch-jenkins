@@ -27,6 +27,7 @@ variableGroups:
 - title: "Optional Configuration"
   visible: true  
   variables:
+  - plugins
   - vcn_cidr
   - label_prefix
   - lb_http_port
