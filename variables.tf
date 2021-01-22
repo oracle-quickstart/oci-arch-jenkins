@@ -76,16 +76,6 @@ variable "bastion_user" {
   default = "opc"
 }
 
-#variable "bastion_authorized_keys" {
-#}
-
-#variable "bastion_private_key" {
-#}
-
-variable "bastion_ad_index" {
-  default = 0
-}
-
 variable "listener_ca_certificate" {
   default = ""
 }
