@@ -39,10 +39,15 @@ variable "jnlp_port" {
   default = 49187
 }
 
+#variable "plugins" {
+#  type        = list(string)
+#  description = "A list of Jenkins plugins to install, use short names. "
+#  default     = ["git", "ssh-slaves", "oracle-cloud-infrastructure-compute"]
+#}
+
 variable "plugins" {
-  type        = list(string)
-  description = "A list of Jenkins plugins to install, use short names. "
-  default     = ["git", "ssh-slaves", "oracle-cloud-infrastructure-compute"]
+  description = "Jenkins Plugins"
+  default     = "git,ssh-slaves,oracle-cloud-infrastructure-compute"
 }
 
 variable "jenkins_version" {

@@ -37,7 +37,8 @@ module "jenkins" {
 #  master_image_id     = data.oci_core_images.InstanceImageOCID.images[0].id
   master_image_id     = lookup(data.oci_core_images.InstanceImageOCID.images[0], "id")
   master_shape        = var.master_shape
-  plugins             = var.plugins
+#  plugins             = var.plugins
+  plugins             = split(",", var.plugins)
   slave_count         = var.slave_count
   slave_ads           = data.template_file.ad_names.*.rendered
   slave_subnet_ids    = split(",", join(",", oci_core_subnet.JenkinsSlaveSubnetAD.*.id))

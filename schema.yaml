@@ -86,6 +86,19 @@ variables:
     description: "Enter password for Jenkins admin user"
 
   # Optional Configuration
+
+  plugins:
+    type: array
+    items:
+      type: string
+      pattern: "^[a-zA-Z0-9\\-]+$"
+    required: true
+    title: "Jenkins Plugins"
+    default: ["git","ssh-slaves","oracle-cloud-infrastructure-compute"]
+    minItems: 1
+    uniqueItems: true
+    description: "Define Jenkins plugins to be installed (minimum 1 plugin)."
+
   vcn_cidr:
     type: string
     required: false
