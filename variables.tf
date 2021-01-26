@@ -67,7 +67,7 @@ variable "bastion_display_name" {
 }
 
 variable "bastion_shape" {
-  default = "VM.Standard2.4"
+  default = "VM.Standard2.1"
 }
 
 variable "master_shape" {

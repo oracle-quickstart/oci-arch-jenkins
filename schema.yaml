@@ -194,7 +194,7 @@ variables:
     type: oci:core:instanceshape:name
     title: "Bastion Server Shape"
     description: "Bastion Server Shape"
-    default: "VM.Standard2.4"
+    default: "VM.Standard2.1"
     required: false
     dependsOn:
       compartmentId: ${compartment_ocid}
