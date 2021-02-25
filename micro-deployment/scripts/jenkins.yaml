@@ -1,0 +1,21 @@
+version: '3'
+
+volumes:
+  jenkins_home:
+  jenkinsRef:
+
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    restart: always
+    ports:
+      - 80:8080
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - jenkinsRef:/usr/share/jenkins/ref
+      - "/home/opc/casc.yaml:/jenkins/config/casc.yaml"
+    environment:
+      - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+      - JENKINS_ADMIN_ID=admin
+      - JENKINS_ADMIN_PASSWORD=password
+      - CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml

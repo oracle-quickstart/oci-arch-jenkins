@@ -1,0 +1,21 @@
+version: '3'
+
+volumes:
+  jenkins_home:
+  jenkinsRef:
+services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    restart: "no"
+    entrypoint: [/usr/local/bin/install-plugins.sh, git, matrix-auth, workflow-aggregator, blueocean, credentials-binding, configuration-as-code]
+    ports:
+      - 80:8080
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - jenkinsRef:/usr/share/jenkins/ref
+      - "/home/opc/plugins.txt:/usr/share/jenkins/ref/plugins.txt"
+      - "/home/opc/casc.yaml:/jenkins/config/casc.yaml"
+    environment:
+      - JENKINS_ADMIN_ID=admin
+      - JENKINS_ADMIN_PASSWORD=password
+      - CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml
