@@ -12,7 +12,7 @@ env:
 
 jobs:
   generate-micro-deployment-stack:
-    name: 'Generate micro deployment package'
+    name: 'Generate microdeployment package'
     runs-on: ubuntu-latest
     defaults:
       run:
