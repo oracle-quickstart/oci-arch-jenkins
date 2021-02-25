@@ -31,4 +31,4 @@ jobs:
         run: terraform validate
 
       - name: 'Build Stack'
-        run: zip -r jenkins-micro-deployment.zip *.tf *.yaml script
+        run: zip -r jenkins-micro-deployment.zip *.tf *.yaml scripts
