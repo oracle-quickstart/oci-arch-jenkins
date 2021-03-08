@@ -1,4 +1,8 @@
-# oci-theia-micro
+# Jenkins Micro Deployment on OCI
+
+This terraform configuration deploys a minimal Jenkins CI/CD server on Oracle Cloud Infrastructure. It provides a way to get started with Jenkins quickly and scale out the deployment when required. 
+
+The deployment creates a minimal footprint and uses a single compute instance and runs Jenkins within a docker container. The installation can be scaled to meet larger workloads and continuous builds by scaling this deployment, installaing the Oracle Cloud Infrastructure Plugin that can create compute instances on demand to meet the Jenkins workload or by deploying Jenkins on to an OKE cluster to let Kubernetes manage the Jenkins build agents.
 
 ## Prerequisites
 
