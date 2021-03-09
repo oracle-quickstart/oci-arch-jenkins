@@ -87,7 +87,7 @@ variables:
 
   jenkins_password:
     type: password
-    required: false
+    required: true
     title: "Jenkins password"
     description: "Password for the Jenkins user above."
     #pattern: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\\\"\\\\|,.<>\\/?]).{8,32}$"
