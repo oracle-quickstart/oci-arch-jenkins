@@ -6,6 +6,7 @@ resource "oci_core_virtual_network" "JenkinsVCN" {
   display_name   = "JenkinsVCN"
   cidr_block     = var.vcn_cidr
   dns_label      = "JenkinsVCN"
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -15,6 +16,7 @@ resource "oci_core_internet_gateway" "JenkinsIG" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_virtual_network.JenkinsVCN.id
   display_name   = "JenkinsIG"
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -24,6 +26,7 @@ resource "oci_core_nat_gateway" "JenkinsNG" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_virtual_network.JenkinsVCN.id
   display_name   = "JenkinsNG"
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -50,6 +53,7 @@ resource "oci_core_route_table" "private" {
     destination_type  = "CIDR_BLOCK"
     network_entity_id = oci_core_nat_gateway.JenkinsNG.id
   }
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -92,6 +96,7 @@ resource "oci_core_security_list" "JenkinsPrivate" {
     protocol = "6"
     source   = "0.0.0.0/0"
   }
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_security_list" "JenkinsBastion" {
@@ -113,6 +118,7 @@ resource "oci_core_security_list" "JenkinsBastion" {
     protocol = "6"
     source   = "0.0.0.0/0"
   }
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_security_list" "JenkinsNat" {
@@ -129,6 +135,7 @@ resource "oci_core_security_list" "JenkinsNat" {
     protocol = "6"
     source   = var.vcn_cidr
   }
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_security_list" "JenkinsLB" {
@@ -159,6 +166,7 @@ resource "oci_core_security_list" "JenkinsLB" {
       max = 443
     }
   }
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -175,6 +183,7 @@ resource "oci_core_subnet" "JenkinsMasterSubnetAD" {
   vcn_id              = oci_core_virtual_network.JenkinsVCN.id
   route_table_id      = oci_core_route_table.private.id
   dhcp_options_id     = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -191,6 +200,7 @@ resource "oci_core_subnet" "JenkinsSlaveSubnetAD" {
   vcn_id              = oci_core_virtual_network.JenkinsVCN.id
   route_table_id      = oci_core_route_table.private.id
   dhcp_options_id     = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -205,6 +215,7 @@ resource "oci_core_subnet" "JenkinsBastion" {
   vcn_id              = oci_core_virtual_network.JenkinsVCN.id
   route_table_id      = oci_core_route_table.public.id
   dhcp_options_id     = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -220,6 +231,7 @@ resource "oci_core_subnet" "JenkinsLBSubnet1" {
   vcn_id              = oci_core_virtual_network.JenkinsVCN.id
   route_table_id      = oci_core_route_table.public.id
   dhcp_options_id     = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 #resource "oci_core_subnet" "JenkinsLBSubnet2" {

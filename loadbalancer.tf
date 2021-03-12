@@ -11,6 +11,7 @@ resource "oci_load_balancer" "JenkinsLB" {
   ]
 
   display_name = "JenkinsLB"
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_load_balancer_backend_set" "JenkinsLBBes" {

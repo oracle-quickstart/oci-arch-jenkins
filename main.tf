@@ -21,6 +21,7 @@ resource "oci_core_instance" "JenkinsBastion" {
     source_id   = lookup(data.oci_core_images.InstanceImageOCID.images[0], "id")
     source_type = "image"
   }
+  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 # ------------------------------------------------------------------------------

@@ -16,7 +16,6 @@ variableGroups:
   - tenancy_ocid
   - region
 
-
 - title: "Required Configuration"
   visible: true  
   variables:
@@ -45,6 +44,7 @@ variableGroups:
   - listener_ca_certificate
   - listener_private_key
   - listener_public_certificate
+  - release
 
 variables:
   # General Configuration
@@ -242,6 +242,12 @@ variables:
     title: "Load Balanacer Listener Public Certificate"
     description: "Load Balanacer Listener Public Certificate"
     required: false
+  
+  release:
+    type: string
+    required: false
+    visible: false
+    title: "Reference Architecture Release (OCI Architecture Center)"
 
 outputs:
 
