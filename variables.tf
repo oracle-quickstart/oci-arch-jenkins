@@ -8,7 +8,7 @@ variable "availablity_domain_name" {}
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.0"
+  default     = "1.1"
 }
 
 variable "vcn_cidr" {
@@ -25,7 +25,7 @@ locals {
   lb_subnet_prefix      = cidrsubnet(local.dmz_tier_prefix, 2, 0)
   bastion_subnet_prefix = cidrsubnet(local.dmz_tier_prefix, 2, 1)
   master_subnet_prefix  = cidrsubnet(local.app_tier_prefix, 2, 0)
-  slave_subnet_prefix   = cidrsubnet(local.app_tier_prefix, 2, 1)
+  agent_subnet_prefix   = cidrsubnet(local.app_tier_prefix, 2, 1)
 }
 
 variable "label_prefix" {
@@ -63,7 +63,7 @@ variable "jenkins_version" {
 variable "jenkins_password" {
 }
 
-variable "slave_count" {
+variable "agent_count" {
   default = "2"
 }
 
@@ -79,7 +79,7 @@ variable "master_shape" {
   default = "VM.Standard2.4"
 }
 
-variable "slave_shape" {
+variable "agent_shape" {
   default = "VM.Standard2.4"
 }
 

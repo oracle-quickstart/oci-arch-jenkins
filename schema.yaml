@@ -33,13 +33,13 @@ variableGroups:
   - http_port
   - jnlp_port
   - jenkins_version
-  - slave_count
+  - agent_count
   - instance_os
   - linux_os_version
   - bastion_display_name
   - bastion_shape
   - master_shape
-  - slave_shape
+  - agent_shape
   - bastion_user
   - listener_ca_certificate
   - listener_private_key
@@ -153,9 +153,9 @@ variables:
       - "2.249.1"
     required: false
 
-  slave_count:
-    title: "Number of Jenkins Slave Servers"
-    description: "Number of Jenkins Slave Servers"
+  agent_count:
+    title: "Number of Jenkins Agent Servers"
+    description: "Number of Jenkins Agent Servers"
     default: 2
     minimum: 2
     maximum: 1000
@@ -181,7 +181,7 @@ variables:
     description: "An Operating System version that determines the operating system version for Jenkins host."
     default: "7.8"
     enum:
-      - "7.8"  
+      - "7.8" 
 
   bastion_display_name:
     title: "Name of Bastion Server"
@@ -208,10 +208,10 @@ variables:
     dependsOn:
       compartmentId: ${compartment_ocid}
 
-  slave_shape:
+  agent_shape:
     type: oci:core:instanceshape:name
-    title: "Jenkins Slave Server Shape"
-    description: "Jenkins Slave Server Shape"
+    title: "Jenkins Agent Server Shape"
+    description: "Jenkins Agent Server Shape"
     default: "VM.Standard2.4"
     required: false
     dependsOn:
@@ -275,9 +275,9 @@ outputs:
     type: copyableString
     visible: true
 
-  slave_private_ips:
-    title: "Jenkins Slaves Private IPs"
-    displayText: "Jenkins Slaves Private IPs"
+  agent_private_ips:
+    title: "Jenkins Agents Private IPs"
+    displayText: "Jenkins Agents Private IPs"
     type: string
     visible: true
 
