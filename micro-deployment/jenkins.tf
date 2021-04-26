@@ -104,7 +104,10 @@ resource "null_resource" "Jenkins_provisioner" {
 
     }
 
-    inline = [ "docker run -v opc_jenkins_home:/var/jenkins_home -v opc_jenkinsRef:/usr/share/jenkins/ref -v /home/opc/casc.yaml:/jenkins/config/casc.yaml -e JENKINS_ADMIN_ID=${var.jenkins_user} -e JENKINS_ADMIN_PASSWORD=${var.jenkins_password}  -e CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml --entrypoint /usr/local/bin/install-plugins.sh jenkins/jenkins:lts git matrix-auth workflow-aggregator blueocean credentials-binding configuration-as-code" ]
+    inline = [ 
+      "while [ ! -f /tmp/cloud-init-complete ]; do sleep 1; done",
+      "docker run -v opc_jenkins_home:/var/jenkins_home -v opc_jenkinsRef:/usr/share/jenkins/ref -v /home/opc/casc.yaml:/jenkins/config/casc.yaml -e JENKINS_ADMIN_ID=${var.jenkins_user} -e JENKINS_ADMIN_PASSWORD=${var.jenkins_password}  -e CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml --entrypoint /usr/local/bin/install-plugins.sh jenkins/jenkins:lts git matrix-auth workflow-aggregator blueocean credentials-binding configuration-as-code" 
+      ]
 
 
   }
@@ -121,7 +124,7 @@ resource "null_resource" "Jenkins_provisioner" {
     }
 
     inline = [
-      "while [ ! -f /tmp/cloud-init-complete ]; do sleep 2; done",
+      "while [ ! -f /tmp/cloud-init-complete ]; do sleep 1; done",
       "docker-compose -f /home/opc/jenkins.yaml up -d"
     ]
 

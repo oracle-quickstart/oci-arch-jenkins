@@ -12,7 +12,7 @@ variable "availability_domain_name" {
 ## Networking
 
 variable "vcn" {
-  default = "theia-vcn"
+  default = "jenkins-vcn"
 }
 
 variable "vcn_cidr" {
@@ -23,7 +23,7 @@ variable "vcn_cidr" {
 ## Instance
 
 variable "node_shape" {
-  default     = "VM.Standard.E2.1"
+  default     = "VM.Standard2.1"
 }
 
 variable "label_prefix" {
@@ -50,11 +50,10 @@ variable "public_ssh_key" {
 # Jenkins
 
 variable "jenkins_user" {
-  description = "The username that Jenkins uses to connect to the MySQL database."
-  default     = "theia"  
+  description = "The username for Jenkins admin user."
+  default     = "admin"  
 }
 
 variable "jenkins_password" {
   description = "Password for Jenkins to connect to the MySQL database."
-  default     = "MyWPpassw0rd!"  
 }
