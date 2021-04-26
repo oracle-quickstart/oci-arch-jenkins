@@ -22,8 +22,14 @@ variable "vcn_cidr" {
 
 ## Instance
 
-variable "node_shape" {
-  default     = "VM.Standard2.1"
+variable "instance_shape" {
+  default = "VM.Standard.E3.Flex"
+}
+variable "instance_ocpus" {
+  default = 1
+}
+variable "instance_shape_config_memory_in_gbs" {
+  default = 16
 }
 
 variable "label_prefix" {
@@ -50,10 +56,10 @@ variable "public_ssh_key" {
 # Jenkins
 
 variable "jenkins_user" {
-  description = "The username for Jenkins admin user."
+  description = "The username for Jenkins admin user"
   default     = "admin"  
 }
 
 variable "jenkins_password" {
-  description = "Password for Jenkins to connect to the MySQL database."
+  description = "Password for Jenkins admin user"
 }

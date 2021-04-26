@@ -16,7 +16,16 @@ resource "oci_core_instance" "Jenkins" {
   availability_domain = local.availability_domain_name
   compartment_id      = var.compartment_ocid
   display_name        = "Jenkins"
-  shape               = var.node_shape
+  shape               = local.instance_shape
+
+  dynamic "shape_config" {
+    for_each = local.is_flexible_instance_shape ? [1] : []
+    content {
+      ocpus         = var.instance_ocpus
+      memory_in_gbs = var.instance_shape_config_memory_in_gbs
+    }
+  }
+
 
   create_vnic_details {
     subnet_id        = oci_core_subnet.public.id
@@ -134,5 +143,8 @@ resource "null_resource" "Jenkins_provisioner" {
 
 
 locals {
-  availability_domain_name = var.availability_domain_name != null ? var.availability_domain_name : data.oci_identity_availability_domains.ADs.availability_domains[0].name
+  availability_domain_name   = var.availability_domain_name != null ? var.availability_domain_name : data.oci_identity_availability_domains.ADs.availability_domains[0].name
+  instance_shape             = var.instance_shape
+  compute_flexible_shapes    = ["VM.Standard.E3.Flex","VM.Standard.E4.Flex"]
+  is_flexible_instance_shape = contains(local.compute_flexible_shapes, local.instance_shape)
 }

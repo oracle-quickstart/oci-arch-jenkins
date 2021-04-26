@@ -16,6 +16,6 @@ services:
       - "/home/opc/casc.yaml:/jenkins/config/casc.yaml"
     environment:
       - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
-      - JENKINS_ADMIN_ID=admin
-      - JENKINS_ADMIN_PASSWORD=password
+      - JENKINS_ADMIN_ID=${jenkins_user}
+      - JENKINS_ADMIN_PASSWORD=${jenkins_password}
       - CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml
