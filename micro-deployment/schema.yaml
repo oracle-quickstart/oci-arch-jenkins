@@ -71,7 +71,7 @@ variables:
     type: boolean
     title: "Show advanced options?"
     description: "Shows advanced options."
-    visible: false
+    visible: true
     default: false
 
 
@@ -91,8 +91,9 @@ variables:
     type: password
     required: true
     title: "Jenkins password"
-    description: "Password for the Jenkins user above."
-    #pattern: "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+\\-=\\[\\]{};':\\\"\\\\|,.<>\\/?]).{8,32}$"
+    description: "The password should be 8-32 characters and must include an uppercase, lowercase, numeral and one of the following special characters : !@#%^*_+-:?.,[]{}"
+    #pattern: "^(?=[a-zA-Z0-9!@#%^*_+\-:?.,\[\]\{\}]{8,32}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).*"
+    pattern: "^(?=.*[!@#%^*_+\\-:?.,\\[\\]\\{\\}])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
     visible: true
       
 
