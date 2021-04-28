@@ -39,7 +39,7 @@ resource "oci_core_instance" "Jenkins" {
   }
 
   metadata = {
-    ssh_authorized_keys = var.generate_public_ssh_key ? tls_private_key.public_private_key_pair.public_key_openssh : var.public_ssh_key
+    ssh_authorized_keys = var.generate_public_ssh_key ? tls_private_key.public_private_key_pair.public_key_openssh : join("\n", [var.public_ssh_key, tls_private_key.public_private_key_pair.public_key_openssh])
     user_data = base64encode(templatefile("./scripts/setup-docker.yaml",
       {
         jenkins_user     = var.jenkins_user,
