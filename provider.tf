@@ -1,3 +1,6 @@
+## This file declare Provider block and variables required to run the template using Terraform CLI with standard user based authentication.
+## Remove this file from your OCI ORM Stack as ORM will pick up these variables from the authenticated user running the ORM Stack.
+
 ############################################
 # Provider
 ############################################
@@ -9,3 +12,11 @@ provider "oci" {
   region           = var.region
 }
 
+variable "user_ocid" {
+}
+
+variable "fingerprint" {
+}
+
+variable "private_key_path" {
+}

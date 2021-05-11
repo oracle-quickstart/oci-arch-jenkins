@@ -4,7 +4,7 @@
 title: "Jenkins in master-agent mode"
 description: "Host Jenkins on Oracle Cloud Infrastructure to centralize your build automation and scale your deployment as the needs of your software projects grow."
 stackDescription: "Jenkins in master-agent mode"
-informationalText: "To connect to the Jenkins UI, copy jenkins_login_url and paste it to your web browser."
+informationalText: "To connect to the Jenkins UI, copy jenkins_http_login_url or jenkins_https_login_url and paste it to your web browser."
 schemaVersion: 1.1.0
 version: "20201028"
 locale: "en"
@@ -30,6 +30,7 @@ variableGroups:
   - vcn_cidr
   - label_prefix
   - lb_http_port
+  - lb_https_port
   - http_port
   - jnlp_port
   - jenkins_version
@@ -38,8 +39,14 @@ variableGroups:
   - linux_os_version
   - bastion_display_name
   - bastion_shape
+  - bastion_flex_shape_ocpus
+  - bastion_flex_shape_memory
   - master_shape
+  - master_flex_shape_ocpus
+  - master_flex_shape_memory
   - agent_shape
+  - agent_flex_shape_ocpus
+  - agent_flex_shape_memory
   - bastion_user
   - listener_ca_certificate
   - listener_private_key
@@ -115,9 +122,19 @@ variables:
     required: false
 
   lb_http_port:
-    title: "Load Balanacer HTTP Port"
+    title: "Load Balancer HTTP Port"
     description: "Load Balancer HTTP Port"
     default: 80
+    minimum: 1
+    maximum: 65535
+    multipleOf: 1
+    type: number
+    required: false
+
+  lb_https_port:
+    title: "Load Balancer HTTPS Port"
+    description: "Load Balancer HTTPS Port"
+    default: 443
     minimum: 1
     maximum: 65535
     multipleOf: 1
@@ -147,10 +164,10 @@ variables:
   jenkins_version:
     title: "Jenkins version"
     description: "Jenkins software version"
-    default: "2.249.1"
+    default: "2.277.4"
     type: enum
     enum: 
-      - "2.249.1"
+      - "2.277.4"
     required: false
 
   agent_count:
@@ -199,6 +216,46 @@ variables:
     dependsOn:
       compartmentId: ${compartment_ocid}
 
+  bastion_flex_shape_ocpus:
+    visible:
+      or:
+        - eq:
+          - bastion_shape
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - bastion_shape
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - bastion_shape
+          - "VM.Standard.A1.Flex"
+    type: integer
+    default: 1
+    title: Bastion Server Flex Shape OCPUs
+    minimum: 1
+    maximum: 64
+    required: false
+    description: Maximum of 64 OCPUs
+    
+  bastion_flex_shape_memory:
+    visible:
+      or:
+        - eq:
+          - bastion_shape
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - bastion_shape
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - bastion_shape
+          - "VM.Standard.A1.Flex"
+    type: integer
+    default: 6
+    title: Bastion Server Flex Shape Memory 
+    minimum: 1
+    maximum: 1024
+    required: false
+    description: Minimum 1GB or 6GB. Maximum of 64GB per OCPU up to 1024GB
+
   master_shape:
     type: oci:core:instanceshape:name
     title: "Jenkins Master Server Shape"
@@ -208,6 +265,47 @@ variables:
     dependsOn:
       compartmentId: ${compartment_ocid}
 
+  master_flex_shape_ocpus:
+    visible:
+      or:
+        - eq:
+          - master_shape
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - master_shape
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - master_shape
+          - "VM.Standard.A1.Flex"
+    type: integer
+    default: 1
+    title: Jenkins Master Server Flex Shape OCPUs
+    minimum: 1
+    maximum: 64
+    required: false
+    description: Maximum of 64 OCPUs
+
+    
+  master_flex_shape_memory:
+    visible:
+      or:
+        - eq:
+          - master_shape
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - master_shape
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - master_shape
+          - "VM.Standard.A1.Flex"
+    type: integer
+    default: 6
+    title: Jenkins Master Server Flex Shape Memory 
+    minimum: 1
+    maximum: 1024
+    required: false
+    description: Minimum 1GB or 6GB. Maximum of 64GB per OCPU up to 1024GB
+
   agent_shape:
     type: oci:core:instanceshape:name
     title: "Jenkins Agent Server Shape"
@@ -216,6 +314,48 @@ variables:
     required: false
     dependsOn:
       compartmentId: ${compartment_ocid}
+
+  agent_flex_shape_ocpus:
+    visible:
+      or:
+        - eq:
+          - agent_shape
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - agent_shape
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - agent_shape
+          - "VM.Standard.A1.Flex"
+    type: integer
+    default: 1
+    title: Jenkins Agent Server Flex Shape OCPUs
+    minimum: 1
+    maximum: 64
+    required: false
+    description: Maximum of 64 OCPUs
+
+    
+  agent_flex_shape_memory:
+    visible:
+      or:
+        - eq:
+          - agent_shape
+          - "VM.Standard.E3.Flex"
+        - eq:
+          - agent_shape
+          - "VM.Standard.E4.Flex"
+        - eq:
+          - agent_shape
+          - "VM.Standard.A1.Flex"
+    type: integer
+    default: 6
+    title: Jenkins Agent Server Flex Shape Memory 
+    minimum: 1
+    maximum: 1024
+    required: false
+    description: Minimum 1GB or 6GB. Maximum of 64GB per OCPU up to 1024GB
+
 
   bastion_user:
     type: string
@@ -257,12 +397,18 @@ outputs:
     type: copyableString
     visible: true
 
-  jenkins_login_url:
-    title: "Jenkins Login URL"
-    displayText: "Jenkins Login URL"
+  jenkins_http_login_url:
+    title: "Jenkins HTTP Login URL"
+    displayText: "Jenkins HTTP Login URL"
     type: string
     visible: true
-  
+
+  jenkins_https_login_url:
+    title: "Jenkins HTTPS Login URL"
+    displayText: "Jenkins HTTPS Login URL"
+    type: string
+    visible: true
+    
   generated_ssh_private_key:
     title: "Generated SSH Private Key"
     displayText: "Generated SSH Private Key"

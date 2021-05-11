@@ -11,7 +11,7 @@ resource "oci_load_balancer" "JenkinsLB" {
   ]
 
   display_name = "JenkinsLB"
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_load_balancer_backend_set" "JenkinsLBBes" {
@@ -86,7 +86,7 @@ resource "oci_load_balancer_listener" "JenkinsLBLsnr_SSL" {
   load_balancer_id         = oci_load_balancer.JenkinsLB.id
   name                     = "https"
   default_backend_set_name = oci_load_balancer_backend_set.JenkinsLBBes.name
-  port                     = 443
+  port                     = var.lb_https_port
   protocol                 = "HTTP"
 
   ssl_configuration {
