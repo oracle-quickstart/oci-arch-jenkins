@@ -24,9 +24,10 @@ jobs:
           uses: "marvinpinto/action-automatic-releases@v1.1.2"
           with:
             repo_token: "${{ secrets.GITHUB_TOKEN }}"
-            automatic_release_tag: "latest"
+          #Artifact will be available for download at: https://github.com/<organization>/<repository>/releases/download/<automatic_release_tag>/<zip file>      
+            automatic_release_tag: "orm-deploy"
             prerelease: true
-            title: "Latest"
+            title: "Latest Stack"
             files: |
               ${{ github.workspace }}/oci-arch-jenkins-stack-latest.zip
 
