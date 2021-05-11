@@ -6,7 +6,7 @@ resource "oci_core_virtual_network" "JenkinsVCN" {
   display_name   = "JenkinsVCN"
   cidr_block     = var.vcn_cidr
   dns_label      = "JenkinsVCN"
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags   = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -16,7 +16,7 @@ resource "oci_core_internet_gateway" "JenkinsIG" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_virtual_network.JenkinsVCN.id
   display_name   = "JenkinsIG"
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags   = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -26,7 +26,7 @@ resource "oci_core_nat_gateway" "JenkinsNG" {
   compartment_id = var.compartment_ocid
   vcn_id         = oci_core_virtual_network.JenkinsVCN.id
   display_name   = "JenkinsNG"
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags   = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -53,7 +53,7 @@ resource "oci_core_route_table" "private" {
     destination_type  = "CIDR_BLOCK"
     network_entity_id = oci_core_nat_gateway.JenkinsNG.id
   }
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
@@ -96,7 +96,7 @@ resource "oci_core_security_list" "JenkinsPrivate" {
     protocol = "6"
     source   = "0.0.0.0/0"
   }
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_security_list" "JenkinsBastion" {
@@ -118,7 +118,7 @@ resource "oci_core_security_list" "JenkinsBastion" {
     protocol = "6"
     source   = "0.0.0.0/0"
   }
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_security_list" "JenkinsNat" {
@@ -135,7 +135,7 @@ resource "oci_core_security_list" "JenkinsNat" {
     protocol = "6"
     source   = var.vcn_cidr
   }
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 resource "oci_core_security_list" "JenkinsLB" {
@@ -166,72 +166,72 @@ resource "oci_core_security_list" "JenkinsLB" {
       max = 443
     }
   }
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  defined_tags = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
 # Create Master Subnet
 ############################################
 resource "oci_core_subnet" "JenkinsMasterSubnetAD" {
-#  availability_domain = data.template_file.ad_names[0].rendered
-  cidr_block          = cidrsubnet(local.master_subnet_prefix, 4, 0)
-#  display_name        = "${var.label_prefix}JenkinsMasterSubnetAD"
-   display_name        = "JenkinsMasterSubnet"
-  dns_label           = "masterad"
-  security_list_ids   = [oci_core_security_list.JenkinsPrivate.id]
-  compartment_id      = var.compartment_ocid
-  vcn_id              = oci_core_virtual_network.JenkinsVCN.id
-  route_table_id      = oci_core_route_table.private.id
-  dhcp_options_id     = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  #  availability_domain = data.template_file.ad_names[0].rendered
+  cidr_block = cidrsubnet(local.master_subnet_prefix, 4, 0)
+  #  display_name        = "${var.label_prefix}JenkinsMasterSubnetAD"
+  display_name      = "JenkinsMasterSubnet"
+  dns_label         = "masterad"
+  security_list_ids = [oci_core_security_list.JenkinsPrivate.id]
+  compartment_id    = var.compartment_ocid
+  vcn_id            = oci_core_virtual_network.JenkinsVCN.id
+  route_table_id    = oci_core_route_table.private.id
+  dhcp_options_id   = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
+  defined_tags      = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
 # Create agent Subnet
 ############################################
 resource "oci_core_subnet" "JenkinsAgentSubnetAD" {
-  count               = length(data.template_file.ad_names.*.rendered)
-#  availability_domain = data.template_file.ad_names[count.index].rendered
-  cidr_block          = cidrsubnet(local.agent_subnet_prefix, 4, count.index)
-  display_name        = "${var.label_prefix}JenkinsAgentSubnet${count.index + 1}"
-  dns_label           = "agentad${count.index + 1}"
-  security_list_ids   = [oci_core_security_list.JenkinsPrivate.id]
-  compartment_id      = var.compartment_ocid
-  vcn_id              = oci_core_virtual_network.JenkinsVCN.id
-  route_table_id      = oci_core_route_table.private.id
-  dhcp_options_id     = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  count = length(data.template_file.ad_names.*.rendered)
+  #  availability_domain = data.template_file.ad_names[count.index].rendered
+  cidr_block        = cidrsubnet(local.agent_subnet_prefix, 4, count.index)
+  display_name      = "${var.label_prefix}JenkinsAgentSubnet${count.index + 1}"
+  dns_label         = "agentad${count.index + 1}"
+  security_list_ids = [oci_core_security_list.JenkinsPrivate.id]
+  compartment_id    = var.compartment_ocid
+  vcn_id            = oci_core_virtual_network.JenkinsVCN.id
+  route_table_id    = oci_core_route_table.private.id
+  dhcp_options_id   = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
+  defined_tags      = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
 # Create Bastion Subnet
 ############################################
 resource "oci_core_subnet" "JenkinsBastion" {
-#  availability_domain = data.template_file.ad_names[var.bastion_ad_index].rendered
-  compartment_id      = var.compartment_ocid
-  display_name        = "JenkinsBastion"
-  cidr_block          = cidrsubnet(local.bastion_subnet_prefix, 4, 0)
-  security_list_ids   = [oci_core_security_list.JenkinsBastion.id]
-  vcn_id              = oci_core_virtual_network.JenkinsVCN.id
-  route_table_id      = oci_core_route_table.public.id
-  dhcp_options_id     = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  #  availability_domain = data.template_file.ad_names[var.bastion_ad_index].rendered
+  compartment_id    = var.compartment_ocid
+  display_name      = "JenkinsBastion"
+  cidr_block        = cidrsubnet(local.bastion_subnet_prefix, 4, 0)
+  security_list_ids = [oci_core_security_list.JenkinsBastion.id]
+  vcn_id            = oci_core_virtual_network.JenkinsVCN.id
+  route_table_id    = oci_core_route_table.public.id
+  dhcp_options_id   = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
+  defined_tags      = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 ############################################
 # Create LoadBalancer Subnet
 ############################################
 resource "oci_core_subnet" "JenkinsLBSubnet1" {
-#  availability_domain = data.template_file.ad_names[0].rendered
-  cidr_block          = cidrsubnet(local.lb_subnet_prefix, 4, 0)
-  display_name        = "JenkinsLBSubnet1"
-  dns_label           = "subnet1"
-  security_list_ids   = [oci_core_security_list.JenkinsLB.id]
-  compartment_id      = var.compartment_ocid
-  vcn_id              = oci_core_virtual_network.JenkinsVCN.id
-  route_table_id      = oci_core_route_table.public.id
-  dhcp_options_id     = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
-  defined_tags = {"${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
+  #  availability_domain = data.template_file.ad_names[0].rendered
+  cidr_block        = cidrsubnet(local.lb_subnet_prefix, 4, 0)
+  display_name      = "JenkinsLBSubnet1"
+  dns_label         = "subnet1"
+  security_list_ids = [oci_core_security_list.JenkinsLB.id]
+  compartment_id    = var.compartment_ocid
+  vcn_id            = oci_core_virtual_network.JenkinsVCN.id
+  route_table_id    = oci_core_route_table.public.id
+  dhcp_options_id   = oci_core_virtual_network.JenkinsVCN.default_dhcp_options_id
+  defined_tags      = { "${oci_identity_tag_namespace.ArchitectureCenterTagNamespace.name}.${oci_identity_tag.ArchitectureCenterTag.name}" = var.release }
 }
 
 #resource "oci_core_subnet" "JenkinsLBSubnet2" {

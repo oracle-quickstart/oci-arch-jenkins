@@ -1,7 +1,4 @@
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 variable "availablity_domain_name" {}
@@ -15,19 +12,6 @@ variable "vcn_cidr" {
   default = "10.0.0.0/16"
 }
 
-locals {
-  // contains bastion, LB, and anything internet-facing
-  dmz_tier_prefix = cidrsubnet(var.vcn_cidr, 2, 0)
-
-  // contains private subnets with app logic
-  app_tier_prefix = cidrsubnet(var.vcn_cidr, 2, 1)
-
-  lb_subnet_prefix      = cidrsubnet(local.dmz_tier_prefix, 2, 0)
-  bastion_subnet_prefix = cidrsubnet(local.dmz_tier_prefix, 2, 1)
-  master_subnet_prefix  = cidrsubnet(local.app_tier_prefix, 2, 0)
-  agent_subnet_prefix   = cidrsubnet(local.app_tier_prefix, 2, 1)
-}
-
 variable "label_prefix" {
   default = ""
 }
@@ -38,6 +22,10 @@ variable "http_port" {
 
 variable "lb_http_port" {
   default = 80
+}
+
+variable "lb_https_port" {
+  default = 443
 }
 
 variable "jnlp_port" {
@@ -56,8 +44,7 @@ variable "plugins" {
 }
 
 variable "jenkins_version" {
-#  default = "2.138.2"
-  default = "2.249.1"
+  default = "2.277.4"
 }
 
 variable "jenkins_password" {
@@ -75,12 +62,36 @@ variable "bastion_shape" {
   default = "VM.Standard2.1"
 }
 
+variable "bastion_flex_shape_ocpus" {
+  default = ""
+}
+
+variable "bastion_flex_shape_memory" {
+  default = ""
+}
+
 variable "master_shape" {
   default = "VM.Standard2.4"
 }
 
+variable "master_flex_shape_ocpus" {
+  default = ""
+}
+
+variable "master_flex_shape_memory" {
+  default = ""
+}
+
 variable "agent_shape" {
   default = "VM.Standard2.4"
+}
+
+variable "agent_flex_shape_ocpus" {
+  default = ""
+}
+
+variable "agent_flex_shape_memory" {
+  default = ""
 }
 
 variable "bastion_user" {
@@ -110,6 +121,6 @@ variable "instance_os" {
 
 variable "linux_os_version" {
   description = "Operating system version for all Linux instances"
-  default     = "7.8"
+  default     = "7.9"
 }
 
