@@ -1,11 +1,17 @@
+## Copyright © 2020, Oracle and/or its affiliates. 
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
 variable "tenancy_ocid" {}
 variable "region" {}
 variable "compartment_ocid" {}
+variable "user_ocid" {}
+variable "fingerprint" {}
+variable "private_key_path" {}
 variable "availablity_domain_name" {}
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.1"
+  default     = "1.2"
 }
 
 variable "vcn_cidr" {
@@ -30,6 +36,18 @@ variable "lb_https_port" {
 
 variable "jnlp_port" {
   default = 49187
+}
+
+variable "lb_shape" {
+  default = "flexible"
+}
+
+variable "flex_lb_min_shape" {
+  default = "10"
+}
+
+variable "flex_lb_max_shape" {
+  default = "100"
 }
 
 #variable "plugins" {
@@ -59,39 +77,39 @@ variable "bastion_display_name" {
 }
 
 variable "bastion_shape" {
-  default = "VM.Standard2.1"
+  default = "VM.Standard.E3.Flex"
 }
 
 variable "bastion_flex_shape_ocpus" {
-  default = ""
+  default = 1
 }
 
 variable "bastion_flex_shape_memory" {
-  default = ""
+  default = 1
 }
 
 variable "master_shape" {
-  default = "VM.Standard2.4"
+  default = "VM.Standard.E3.Flex"
 }
 
 variable "master_flex_shape_ocpus" {
-  default = ""
+  default = 1
 }
 
 variable "master_flex_shape_memory" {
-  default = ""
+  default = 15
 }
 
 variable "agent_shape" {
-  default = "VM.Standard2.4"
+  default = "VM.Standard.E3.Flex"
 }
 
 variable "agent_flex_shape_ocpus" {
-  default = ""
+  default = 1
 }
 
 variable "agent_flex_shape_memory" {
-  default = ""
+  default = 20
 }
 
 variable "bastion_user" {

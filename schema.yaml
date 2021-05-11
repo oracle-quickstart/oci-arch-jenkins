@@ -15,6 +15,8 @@ variableGroups:
   variables:
   - tenancy_ocid
   - region
+  - release
+  - bastion_user
 
 - title: "Required Configuration"
   visible: true  
@@ -22,19 +24,36 @@ variableGroups:
   - compartment_ocid
   - availablity_domain_name 
   - jenkins_password
+  - show_advanced
 
-- title: "Optional Configuration"
-  visible: true  
+- title: Networking Optional Configuration
+  visible: 
+      and:
+        - show_advanced
   variables:
-  - plugins
   - vcn_cidr
-  - label_prefix
-  - lb_http_port
-  - lb_https_port
   - http_port
   - jnlp_port
-  - jenkins_version
-  - agent_count
+
+- title: Load Balancer Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:
+  - lb_shape
+  - flex_lb_min_shape
+  - flex_lb_max_shape 
+  - lb_http_port
+  - lb_https_port
+  - listener_ca_certificate
+  - listener_private_key
+  - listener_public_certificate
+
+- title: Compute Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:
   - instance_os
   - linux_os_version
   - bastion_display_name
@@ -47,13 +66,27 @@ variableGroups:
   - agent_shape
   - agent_flex_shape_ocpus
   - agent_flex_shape_memory
-  - bastion_user
-  - listener_ca_certificate
-  - listener_private_key
-  - listener_public_certificate
-  - release
+
+- title: Jenkins Optional Configuration
+  visible: 
+      and:
+        - show_advanced
+  variables:
+  - jenkins_version
+  - agent_count
+  - plugins
+  - label_prefix
+
 
 variables:
+
+  show_advanced:
+    type: boolean
+    title: "Show advanced options?"
+    description: "Shows advanced options."
+    visible: true
+    default: false
+
   # General Configuration
   tenancy_ocid:
     title: "Tenancy ID"
@@ -141,6 +174,56 @@ variables:
     type: number
     required: false
 
+  lb_shape:
+    type: enum
+    title: "Load Balancer Shape"
+    description: "Load Balancer Shape"
+    default: "flexible"
+    required: false 
+    enum:
+      - "flexible"
+      - "100Mbps"
+      - "10Mbps"
+      - "10Mbps-Micro"
+      - "400Mbps"
+      - "8000Mbps"
+
+  flex_lb_min_shape:
+    type: enum
+    required: false
+    default: "10"
+    title: "LB Flex Min Shape"
+    description: "Choose Minimum Shape for Flex Load Balancer."
+    enum:
+      - "10"
+      - "100"
+      - "1000"
+      - "400"
+      - "8000"
+    visible:
+      and:
+        - eq:
+          - lb_shape 
+          - "flexible"
+
+  flex_lb_max_shape:
+    type: enum
+    required: false
+    default: "100"
+    title: "LB Flex Max Shape"
+    description: "Choose Maximum Shape for Flex Load Balancer."
+    enum:
+      - "10"
+      - "100"
+      - "1000"
+      - "400"
+      - "8000"
+    visible:
+      and:
+        - eq:
+          - lb_shape 
+          - "flexible"
+
   http_port:
     title: "HTTP Port"
     description: "HTTP Port for Jenkins Server"
@@ -211,7 +294,7 @@ variables:
     type: oci:core:instanceshape:name
     title: "Bastion Server Shape"
     description: "Bastion Server Shape"
-    default: "VM.Standard2.1"
+    default: "VM.Standard.E3.Flex"
     required: false
     dependsOn:
       compartmentId: ${compartment_ocid}
@@ -225,9 +308,6 @@ variables:
         - eq:
           - bastion_shape
           - "VM.Standard.E4.Flex"
-        - eq:
-          - bastion_shape
-          - "VM.Standard.A1.Flex"
     type: integer
     default: 1
     title: Bastion Server Flex Shape OCPUs
@@ -245,9 +325,6 @@ variables:
         - eq:
           - bastion_shape
           - "VM.Standard.E4.Flex"
-        - eq:
-          - bastion_shape
-          - "VM.Standard.A1.Flex"
     type: integer
     default: 6
     title: Bastion Server Flex Shape Memory 
@@ -260,7 +337,7 @@ variables:
     type: oci:core:instanceshape:name
     title: "Jenkins Master Server Shape"
     description: "Jenkins Master Server Shape"
-    default: "VM.Standard2.4"
+    default: "VM.Standard.E3.Flex"
     required: false
     dependsOn:
       compartmentId: ${compartment_ocid}
@@ -274,9 +351,6 @@ variables:
         - eq:
           - master_shape
           - "VM.Standard.E4.Flex"
-        - eq:
-          - master_shape
-          - "VM.Standard.A1.Flex"
     type: integer
     default: 1
     title: Jenkins Master Server Flex Shape OCPUs
@@ -295,9 +369,6 @@ variables:
         - eq:
           - master_shape
           - "VM.Standard.E4.Flex"
-        - eq:
-          - master_shape
-          - "VM.Standard.A1.Flex"
     type: integer
     default: 6
     title: Jenkins Master Server Flex Shape Memory 
@@ -310,7 +381,7 @@ variables:
     type: oci:core:instanceshape:name
     title: "Jenkins Agent Server Shape"
     description: "Jenkins Agent Server Shape"
-    default: "VM.Standard2.4"
+    default: "VM.Standard.E3.Flex"
     required: false
     dependsOn:
       compartmentId: ${compartment_ocid}
@@ -324,9 +395,6 @@ variables:
         - eq:
           - agent_shape
           - "VM.Standard.E4.Flex"
-        - eq:
-          - agent_shape
-          - "VM.Standard.A1.Flex"
     type: integer
     default: 1
     title: Jenkins Agent Server Flex Shape OCPUs
@@ -345,9 +413,6 @@ variables:
         - eq:
           - agent_shape
           - "VM.Standard.E4.Flex"
-        - eq:
-          - agent_shape
-          - "VM.Standard.A1.Flex"
     type: integer
     default: 6
     title: Jenkins Agent Server Flex Shape Memory 

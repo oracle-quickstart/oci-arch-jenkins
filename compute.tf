@@ -1,6 +1,6 @@
-# ------------------------------------------------------------------------------
-# Setup Bastion Host
-# ------------------------------------------------------------------------------
+## Copyright © 2020, Oracle and/or its affiliates. 
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
 resource "oci_core_instance" "JenkinsBastion" {
   availability_domain = var.availablity_domain_name
   compartment_id      = var.compartment_ocid

@@ -1,5 +1,5 @@
-## This file declare Provider block and variables required to run the template using Terraform CLI with standard user based authentication.
-## Remove this file from your OCI ORM Stack as ORM will pick up these variables from the authenticated user running the ORM Stack.
+## Copyright © 2020, Oracle and/or its affiliates. 
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 ############################################
 # Provider
@@ -12,11 +12,12 @@ provider "oci" {
   region           = var.region
 }
 
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
+provider "oci" {
+  alias                = "homeregion"
+  tenancy_ocid         = var.tenancy_ocid
+  user_ocid            = var.user_ocid
+  fingerprint          = var.fingerprint
+  private_key_path     = var.private_key_path
+  region               = data.oci_identity_region_subscriptions.home_region_subscriptions.region_subscriptions[0].region_name
+  disable_auto_retries = "true"
 }
