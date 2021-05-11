@@ -11,6 +11,25 @@ env:
   PROJECT_WORKING_DIR: '/build-orm/'
 
 jobs:
+  generate-oci-arch-jenkins-stack:
+      name: 'Generate oci-arch-jenkins ORM Stack'
+      runs-on: ubuntu-latest
+      steps:
+        - uses: actions/checkout@v2              
+        - name: 'Generate ORM Stack zip file'
+          run: |
+            zip -r oci-arch-jenkins-stack-latest.zip *.tf *.tf *.yaml -x provider.tf terraform.tfstate* terraform.tfvars*
+            unzip -l oci-arch-jenkins-stack-latest.zip
+        - name: 'Publish Release'
+          uses: "marvinpinto/action-automatic-releases@v1.1.2"
+          with:
+            repo_token: "${{ secrets.GITHUB_TOKEN }}"
+            automatic_release_tag: "latest"
+            prerelease: true
+            title: "Latest"
+            files: |
+              ${{ github.workspace }}/oci-arch-jenkins-stack-latest.zip
+
   generate-micro-deployment-stack:
     name: 'Generate micro-deployment package'
     runs-on: ubuntu-latest
