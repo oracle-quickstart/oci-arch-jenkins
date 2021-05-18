@@ -1,9 +1,9 @@
 # Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
-title: "Jenkins in master-agent mode"
+title: "Jenkins in controller-agent mode"
 description: "Host Jenkins on Oracle Cloud Infrastructure to centralize your build automation and scale your deployment as the needs of your software projects grow."
-stackDescription: "Jenkins in master-agent mode"
+stackDescription: "Jenkins in controller-agent mode"
 informationalText: "To connect to the Jenkins UI, copy jenkins_http_login_url or jenkins_https_login_url and paste it to your web browser."
 schemaVersion: 1.1.0
 version: "20201028"
@@ -60,9 +60,9 @@ variableGroups:
   - bastion_shape
   - bastion_flex_shape_ocpus
   - bastion_flex_shape_memory
-  - master_shape
-  - master_flex_shape_ocpus
-  - master_flex_shape_memory
+  - controller_shape
+  - controller_flex_shape_ocpus
+  - controller_flex_shape_memory
   - agent_shape
   - agent_flex_shape_ocpus
   - agent_flex_shape_memory
@@ -333,45 +333,45 @@ variables:
     required: false
     description: Minimum 1GB or 6GB. Maximum of 64GB per OCPU up to 1024GB
 
-  master_shape:
+  controller_shape:
     type: oci:core:instanceshape:name
-    title: "Jenkins Master Server Shape"
-    description: "Jenkins Master Server Shape"
+    title: "Jenkins Controller Server Shape"
+    description: "Jenkins Controller Server Shape"
     default: "VM.Standard.E3.Flex"
     required: false
     dependsOn:
       compartmentId: ${compartment_ocid}
 
-  master_flex_shape_ocpus:
+  controller_flex_shape_ocpus:
     visible:
       or:
         - eq:
-          - master_shape
+          - controller_shape
           - "VM.Standard.E3.Flex"
         - eq:
-          - master_shape
+          - controller_shape
           - "VM.Standard.E4.Flex"
     type: integer
     default: 1
-    title: Jenkins Master Server Flex Shape OCPUs
+    title: Jenkins Controller Server Flex Shape OCPUs
     minimum: 1
     maximum: 64
     required: false
     description: Maximum of 64 OCPUs
 
     
-  master_flex_shape_memory:
+  controller_flex_shape_memory:
     visible:
       or:
         - eq:
-          - master_shape
+          - controller_shape
           - "VM.Standard.E3.Flex"
         - eq:
-          - master_shape
+          - controller_shape
           - "VM.Standard.E4.Flex"
     type: integer
     default: 6
-    title: Jenkins Master Server Flex Shape Memory 
+    title: Jenkins Controller Server Flex Shape Memory 
     minimum: 1
     maximum: 1024
     required: false
@@ -480,9 +480,9 @@ outputs:
     type: string
     visible: true
   
-  master_private_ip:
-    title: "Jenkins Master Private IP"
-    displayText: "Jenkins Master Private IP"
+  controller_private_ip:
+    title: "Jenkins Controller Private IP"
+    displayText: "Jenkins Controller Private IP"
     type: copyableString
     visible: true
 

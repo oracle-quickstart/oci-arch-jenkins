@@ -6,10 +6,10 @@ resource "random_id" "tag" {
 }
 
 resource "oci_identity_tag_namespace" "ArchitectureCenterTagNamespace" {
-  provider = oci.homeregion
+  provider       = oci.homeregion
   compartment_id = var.compartment_ocid
   description    = "ArchitectureCenterTagNamespace"
-  name           = "ArchitectureCenter\\jenkins-master-agent-mode-${random_id.tag.hex}"
+  name           = "ArchitectureCenter\\jenkins-controller-agent-mode-${random_id.tag.hex}"
 
   provisioner "local-exec" {
     command = "sleep 10"
@@ -18,7 +18,7 @@ resource "oci_identity_tag_namespace" "ArchitectureCenterTagNamespace" {
 }
 
 resource "oci_identity_tag" "ArchitectureCenterTag" {
-  provider = oci.homeregion
+  provider         = oci.homeregion
   description      = "ArchitectureCenterTag"
   name             = "release"
   tag_namespace_id = oci_identity_tag_namespace.ArchitectureCenterTagNamespace.id
