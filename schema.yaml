@@ -308,6 +308,10 @@ variables:
         - eq:
           - bastion_shape
           - "VM.Standard.E4.Flex"
+        - eq:
+          - bastion_shape
+          - "VM.Optimized3.Flex" 
+
     type: integer
     default: 1
     title: Bastion Server Flex Shape OCPUs
@@ -325,6 +329,10 @@ variables:
         - eq:
           - bastion_shape
           - "VM.Standard.E4.Flex"
+        - eq:
+          - bastion_shape
+          - "VM.Optimized3.Flex" 
+
     type: integer
     default: 6
     title: Bastion Server Flex Shape Memory 
@@ -351,6 +359,10 @@ variables:
         - eq:
           - controller_shape
           - "VM.Standard.E4.Flex"
+        - eq:
+          - controller_shape
+          - "VM.Optimized3.Flex" 
+
     type: integer
     default: 1
     title: Jenkins Controller Server Flex Shape OCPUs
@@ -369,6 +381,10 @@ variables:
         - eq:
           - controller_shape
           - "VM.Standard.E4.Flex"
+        - eq:
+          - controller_shape
+          - "VM.Optimized3.Flex" 
+          
     type: integer
     default: 6
     title: Jenkins Controller Server Flex Shape Memory 
@@ -395,6 +411,9 @@ variables:
         - eq:
           - agent_shape
           - "VM.Standard.E4.Flex"
+        - eq:
+          - agent_shape
+          - "VM.Optimized3.Flex" 
     type: integer
     default: 1
     title: Jenkins Agent Server Flex Shape OCPUs
@@ -413,6 +432,9 @@ variables:
         - eq:
           - agent_shape
           - "VM.Standard.E4.Flex"
+        - eq:
+          - agent_shape
+          - "VM.Optimized3.Flex"
     type: integer
     default: 6
     title: Jenkins Agent Server Flex Shape Memory 
