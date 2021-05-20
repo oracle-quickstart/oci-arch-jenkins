@@ -11,10 +11,10 @@ locals {
   // contains private subnets with app logic
   app_tier_prefix = cidrsubnet(var.vcn_cidr, 2, 1)
 
-  lb_subnet_prefix      = cidrsubnet(local.dmz_tier_prefix, 2, 0)
-  bastion_subnet_prefix = cidrsubnet(local.dmz_tier_prefix, 2, 1)
-  master_subnet_prefix  = cidrsubnet(local.app_tier_prefix, 2, 0)
-  agent_subnet_prefix   = cidrsubnet(local.app_tier_prefix, 2, 1)
+  lb_subnet_prefix         = cidrsubnet(local.dmz_tier_prefix, 2, 0)
+  bastion_subnet_prefix    = cidrsubnet(local.dmz_tier_prefix, 2, 1)
+  controller_subnet_prefix = cidrsubnet(local.app_tier_prefix, 2, 0)
+  agent_subnet_prefix      = cidrsubnet(local.app_tier_prefix, 2, 1)
 
 
   # Compute Locals #
@@ -29,11 +29,11 @@ locals {
 
 
   # ------------------------------------------------------------------------------
-  # Master Host Locals
+  # Controller Host Locals
   # ------------------------------------------------------------------------------
-  master_shape             = var.master_shape
-  master_flex_shape_ocpus  = var.master_flex_shape_ocpus
-  master_flex_shape_memory = var.master_flex_shape_memory
+  controller_shape             = var.controller_shape
+  controller_flex_shape_ocpus  = var.controller_flex_shape_ocpus
+  controller_flex_shape_memory = var.controller_flex_shape_memory
 
 
   # ------------------------------------------------------------------------------

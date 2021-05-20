@@ -88,15 +88,15 @@ variable "bastion_flex_shape_memory" {
   default = 1
 }
 
-variable "master_shape" {
+variable "controller_shape" {
   default = "VM.Standard.E3.Flex"
 }
 
-variable "master_flex_shape_ocpus" {
+variable "controller_flex_shape_ocpus" {
   default = 1
 }
 
-variable "master_flex_shape_memory" {
+variable "controller_flex_shape_memory" {
   default = 15
 }
 

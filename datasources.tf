@@ -23,11 +23,11 @@ data "oci_core_vnic" "bastion_VNIC1" {
   vnic_id = data.oci_core_vnic_attachments.bastion_VNIC1_attach.vnic_attachments.0.vnic_id
 }
 
-data "oci_core_images" "master_image" {
+data "oci_core_images" "controller_image" {
   compartment_id           = var.compartment_ocid
   operating_system         = var.instance_os
   operating_system_version = var.linux_os_version
-  shape                    = var.master_shape
+  shape                    = var.controller_shape
 
   filter {
     name   = "display_name"
@@ -63,10 +63,10 @@ data "oci_core_images" "bastion_image" {
 }
 
 data "oci_identity_region_subscriptions" "home_region_subscriptions" {
-    tenancy_id = var.tenancy_ocid
+  tenancy_id = var.tenancy_ocid
 
-    filter {
-      name   = "is_home_region"
-      values = [true]
-    }
+  filter {
+    name   = "is_home_region"
+    values = [true]
+  }
 }
