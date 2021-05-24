@@ -361,8 +361,10 @@ variables:
           - "VM.Standard.E4.Flex"
         - eq:
           - controller_shape
-          - "VM.Optimized3.Flex" 
-
+          - "VM.Optimized3.Flex"
+        - eq:
+          - controller_shape
+          - "VM.Standard.A1.Flex" 
     type: integer
     default: 1
     title: Jenkins Controller Server Flex Shape OCPUs
@@ -384,7 +386,9 @@ variables:
         - eq:
           - controller_shape
           - "VM.Optimized3.Flex" 
-          
+        - eq:
+          - controller_shape
+          - "VM.Standard.A1.Flex" 
     type: integer
     default: 6
     title: Jenkins Controller Server Flex Shape Memory 
@@ -414,6 +418,9 @@ variables:
         - eq:
           - agent_shape
           - "VM.Optimized3.Flex" 
+        - eq:
+          - agent_shape
+          - "VM.Standard.A1.Flex"
     type: integer
     default: 1
     title: Jenkins Agent Server Flex Shape OCPUs
@@ -435,6 +442,9 @@ variables:
         - eq:
           - agent_shape
           - "VM.Optimized3.Flex"
+        - eq:
+          - agent_shape
+          - "VM.Standard.A1.Flex" 
     type: integer
     default: 6
     title: Jenkins Agent Server Flex Shape Memory 
