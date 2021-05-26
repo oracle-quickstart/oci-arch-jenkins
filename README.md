@@ -2,7 +2,7 @@
 
 Deploy Jenkins in controller agent mode to take advantage of the clustered configuration of CI/CD pipeline configured in Oracle Cloud Infrastructure.
 
-For details of the architecture, see [_Deploy Jenkins in controller/agent mode_](https://docs.oracle.com/en/solutions/jenkins-controller-agent-mode/index.html)
+For details of the architecture, see [_Deploy Jenkins in controller/agent mode_](https://docs.oracle.com/en/solutions/jenkins-master-agent-mode/index.html)
 
 ## Prerequisites
 
