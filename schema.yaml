@@ -1,4 +1,4 @@
-# Copyright (c) 2020, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2021, Oracle and/or its affiliates. All rights reserved.
 # Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl.
 
 title: "Jenkins in controller-agent mode"
@@ -24,6 +24,7 @@ variableGroups:
   - compartment_ocid
   - availablity_domain_name 
   - jenkins_password
+  - use_bastion_service
   - show_advanced
 
 - title: Networking Optional Configuration
@@ -108,6 +109,14 @@ variables:
     type: oci:identity:compartment:id
     required: true
     visibile: true
+
+  use_bastion_service:
+    type: boolean
+    visibile: true
+    default: true
+    required: false
+    title: "Use OCI Bastion Service"
+    description: "Check the box to use OCI Bastion Service instead of Bastion Host VM."
 
   availablity_domain_name:
     type: oci:identity:availabilitydomain:name

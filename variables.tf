@@ -1,17 +1,17 @@
-## Copyright © 2020, Oracle and/or its affiliates. 
+## Copyright © 2021, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 variable "tenancy_ocid" {}
 variable "region" {}
 variable "compartment_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
+#variable "user_ocid" {}
+#variable "fingerprint" {}
+#variable "private_key_path" {}
 variable "availablity_domain_name" {}
 
 variable "release" {
   description = "Reference Architecture Release (OCI Architecture Center)"
-  default     = "1.4"
+  default     = "1.5"
 }
 
 variable "vcn_cidr" {
@@ -50,11 +50,9 @@ variable "flex_lb_max_shape" {
   default = "100"
 }
 
-#variable "plugins" {
-#  type        = list(string)
-#  description = "A list of Jenkins plugins to install, use short names. "
-#  default     = ["git", "ssh-slaves", "oracle-cloud-infrastructure-compute"]
-#}
+variable "use_bastion_service" {
+  default = true
+}
 
 variable "plugins" {
   description = "Jenkins Plugins"

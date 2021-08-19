@@ -1,4 +1,4 @@
-## Copyright © 2020, Oracle and/or its affiliates. 
+## Copyright © 2021, Oracle and/or its affiliates. 
 ## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
 
 # Gets a list of Availability Domains
@@ -14,13 +14,15 @@ data "template_file" "ad_names" {
 }
 
 data "oci_core_vnic_attachments" "bastion_VNIC1_attach" {
+  count               = var.use_bastion_service ? 0 : 1
   availability_domain = var.availablity_domain_name
   compartment_id      = var.compartment_ocid
-  instance_id         = oci_core_instance.JenkinsBastion.id
+  instance_id         = oci_core_instance.JenkinsBastion[count.index].id
 }
 
 data "oci_core_vnic" "bastion_VNIC1" {
-  vnic_id = data.oci_core_vnic_attachments.bastion_VNIC1_attach.vnic_attachments.0.vnic_id
+  count   = var.use_bastion_service ? 0 : 1
+  vnic_id = data.oci_core_vnic_attachments.bastion_VNIC1_attach[count.index].vnic_attachments.0.vnic_id
 }
 
 data "oci_core_images" "controller_image" {
