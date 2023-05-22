@@ -1,28 +1,27 @@
 title: "Deploy a containerized Jenkins instance on OCI"
-description: "Deploy containerized Jenkins server on OCI using a single compute instance. "
+description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.longDescription()} 
 schemaVersion: 1.1.0
 version: "20190304"
 locale: "en"
 
 variableGroups:
-- title: General Configuration
+- title: ${Messages.solutionsHub.generalConfig()}
   visible: false
   variables:
   - tenancy_ocid
   - region
   - instance_os
   - linux_os_version
+  - label_prefix
 
-- title: Jenkins Configuration
+- title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variableGroups.jenkinsConfigurationTitle()}
   visible: true  
   variables:
     - jenkins_user
     - jenkins_password
     - show_advanced
 
-
-
-- title: Instance Configuration
+- title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variableGroups.instanceConfigurationTitle()}
   visible: 
       and:
         - show_advanced
@@ -35,8 +34,7 @@ variableGroups:
     - generate_public_ssh_key
     - public_ssh_key
 
-
-- title: Network Configuration
+- title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variableGroups.networkConfigurationTitle()}
   visible: 
       and:
         - show_advanced
@@ -45,21 +43,21 @@ variableGroups:
      - vcn_cidr
 
 outputGroups:
-- title: Service Endpoints
+- title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.outputGroups.serviceEndpointsTitle()}
   outputs:
     - jenkins_public_ip
-- title: Generated Passwords
+- title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.outputGroups.generatedPasswordsTitle()}
   outputs:
     - generated_ssh_private_key
 
 outputs:
   jenkins_public_ip:
     type: link
-    title: Jenkins Login
-    description: Open Jenkins
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.outputs.jenkinsPublicIpTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.outputs.jenkinsPublicIpDescription()}
   generated_ssh_private_key:
-    title: "Generated SSH Private Key"
-    description: "Generated SSH Private Key"
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.outputs.generatedSshPrivateKeyTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.outputs.generatedSshPrivateKeyDescription()}
     type: copyableString
     visible: true
 
@@ -69,18 +67,18 @@ variables:
 
   show_advanced:
     type: boolean
-    title: "Show advanced options?"
-    description: "Shows advanced options."
-    visible: true
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.showAdvancedTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.showAdvancedDescription()}
+    visible: false
     default: false
 
 
 
   jenkins_user:
     type: string
-    required: false
-    title: "Jenkins username"
-    description: "The username to login to Jenkins."
+    required: true
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.jenkinsUserTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.jenkinsUserDescription()}
     minLength: 2
     maxLength: 14
     pattern: "^[a-zA-Z][a-zA-Z0-9]+$"
@@ -90,10 +88,10 @@ variables:
   jenkins_password:
     type: password
     required: true
-    title: "Jenkins password"
-    description: "The password should be 8-32 characters and must include an uppercase, lowercase, numeral and one of the following special characters : !@#%^*_+-:?.,[]{}"
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.jenkinsPasswordTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.jenkinsPasswordDescription()}
     #pattern: "^(?=[a-zA-Z0-9!@#%^*_+\-:?.,\[\]\{\}]{8,32}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9]).*"
-    pattern: "^(?=.*[!@#%^*_+\\-:?.,\\[\\]\\{\\}])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$"
+    pattern: "^(?=.*[!@#%^*_+\\-:?.,\\[\\]\\{\\}])(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.*[$\\(\\)]).{8,32}$"
     visible: true
       
 
@@ -105,8 +103,8 @@ variables:
       and:
         - show_advanced
     required: true
-    title: "VCN name"
-    description: "Type VCN name where your Jenkins will be deployed."
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.vcnTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.vcnDescription()}
 
   vcn_cidr:
     type: string
@@ -115,8 +113,8 @@ variables:
         - show_advanced
     required: false
     pattern: "^(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9]).(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\/(3[0-2]|[1-2]?[0-9])$"
-    title: "VCN CIDR"
-    description: "Choose VCN CIDR for your Jenkins deployment."
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.vcnCidrTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.vcnCidrDescription()}
 
 # Instance 
   compartment_ocid:
@@ -125,8 +123,8 @@ variables:
     visible: 
       and:
         - show_advanced
-    title: "Compartment"
-    description: "Compartment where your Jenkins will be deployed."
+    title: ${Messages.solutionsHub.genericVariables.compartment.title()}
+    description: ${Messages.solutionsHub.genericVariables.compartment.description()}
 
   availability_domain_name:
     type: oci:identity:availabilitydomain:name
@@ -134,20 +132,20 @@ variables:
     visible: 
       and:
         - show_advanced
-    title: "Availability Domain to be chosen"
-    description: "Choose Availability Domain where your Jenkins will be deployed."
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.availabilityDomainNameTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.availabilityDomainNameDescription()}
     dependsOn:
       regionName: ${region}
       compartmentId: ${compartment_ocid}
 
-  node_shape:
+  instance_shape:
     type: oci:core:instanceshape:name
     required: false
     visible: 
       and:
         - show_advanced
-    title: "Jenkins node shape"
-    description: "Choose Instance Shape for Jenkins host."
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.instanceShapeTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.instanceShapeDescription()}
     default: "VM.Standard2.1"
     dependsOn:
       compartmentId: ${compartment_ocid}
@@ -158,8 +156,8 @@ variables:
     visible: 
       and:
         - show_advanced
-    title: "Instance OS"
-    description: "An Operating System that determines the operating system for Jenkins host."
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.instanceOsTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.instanceOsDescription()}
     default: "Oracle Linux"
     enum:
       - "Oracle Linux"
@@ -170,8 +168,8 @@ variables:
     visible: 
       and:
         - show_advanced
-    title: "Instance OS version"
-    description: "An Operating System version that determines the operating system version for Jenkins host."
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.linuxOsVersionTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.linuxOsVersionDescription()}
     default: "7.8"
     enum:
       - "7.8"
@@ -180,14 +178,15 @@ variables:
     type: string
     required: false
     visible: false
-    title: "Jenkins Hostname Prefix"
-    description: "Type Jenkins Hostname Prefix."
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.labelPrefixTitle()}
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.labelPrefixDescription()}
 
   
 
   generate_public_ssh_key:
     type: boolean
-    title: "Auto generate public ssh key?"
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.generatePublicSshKeyTitle()}
+    #description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.generatePublicSshKeyDescription()}
     required: true
     visible: #($show_advanced  == ""Yes"")
       and:
@@ -195,10 +194,10 @@ variables:
 
   public_ssh_key:
     type: oci:core:ssh:publickey
-    title: "Import your own SSH public key"
+    title: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.publicSshKeyTitle()}
     additionalProps:
       allowMultiple: true
-    description: "In order to access your private nodes with a public SSH key you will need to set up a bastion host (a.k.a. jump box). If using public nodes, bastion is not needed. Left blank to not import keys."
+    description: ${Messages.solutionsHub.solutions.jenkinsQuickstarts.variables.publicSshKeyDescription()}
     required: false
     pattern: "((^(ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)(,((ssh-rsa AAAAB3NzaC1yc2|ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNT|ecdsa-sha2-nistp384 AAAAE2VjZHNhLXNoYTItbmlzdHAzODQAAAAIbmlzdHAzOD|ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1Mj|ssh-ed25519 AAAAC3NzaC1lZDI1NTE5|ssh-dss AAAAB3NzaC1kc3)[0-9A-Za-z+\/]+[=]{0,3})( [^,]*)?)*$"
     visible: 

@@ -1,43 +1,57 @@
-# Jenkins Micro Deployment on OCI
+# terraform-jenkins-ci-cd-oci
 
-This terraform configuration deploys a minimal Jenkins CI/CD server on Oracle Cloud Infrastructure. It provides a way to get started with Jenkins quickly and scale out the deployment when required. 
+[![License: UPL](https://img.shields.io/badge/license-UPL-green)](https://img.shields.io/badge/license-UPL-green) [![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=oracle-devrel_terraform-jenkins-ci-cd-oci)](https://sonarcloud.io/dashboard?id=oracle-devrel_terraform-jenkins-ci-cd-oci)
 
-The deployment creates a minimal footprint and uses a single compute instance and runs Jenkins within a docker container. The installation can be scaled to meet larger workloads and continuous builds by scaling this deployment, installaing the Oracle Cloud Infrastructure Plugin that can create compute instances on demand to meet the Jenkins workload or by deploying Jenkins on to an OKE cluster to let Kubernetes manage the Jenkins build agents.
+Deploy a Jenkins CI/CD pipeline using Docker containers on Oracle Linux VM
+
+
+## Reference Architecture 
+The final reference architecture after the deployment and some key components are described below.
+
+![Reference Architecture](https://github.com/oracle-devrel/terraform-jenkins-ci-cd-oci/blob/main/Image/Architecture.png)
+
 
 ## Prerequisites
 
-- Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `vcns`, `internet-gateways`, `route-tables`, `security-lists`, `subnets` and `instances`.
+- Permission to `manage` the following types of resources in your Oracle Cloud Infrastructure tenancy: `vcns`, `internet-gateways`, `route-tables`, `network-security-groups`, `subnets`, and `instances`.
 
-- Quota to create the following resources: 1 VCN, 1 subnet, 1 Internet Gateway, and 1 compute instance (Jenkins CMS).
+- Quota to create the following resources: 1 VCN, 1 subnet, 1 Internet Gateway, 1 NAT Gateway, 2 route rules, and 1 compute instance.
 
 If you don't have the required permissions and quota, contact your tenancy administrator. See [Policy Reference](https://docs.cloud.oracle.com/en-us/iaas/Content/Identity/Reference/policyreference.htm), [Service Limits](https://docs.cloud.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm), [Compartment Quotas](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcequotas.htm).
 
+## Deployment Options
+The pipeline can be deployed on [Oracle Cloud Infrastructure][oci] using the below deployment options:
+
+1. [Terraform][tf] 
+2. [Resource Manager][orm_landing] by clicking the following button  [![Deploy to Oracle Cloud][magic_button]][magic_rm_stack]
+
+
 ## Deploy Using Oracle Resource Manager
+The steps below guide you through deploying the pipeline on your tenancy using the OCI Resource Manager:
 
-To deploy this solution using Oracle Resource Manager, click on the deployment button below to start the deployment in your oracle cloud infrastructure tenancy.
+1. Download the [`jenkins-stack-configuration.zip`](https://github.com/oracle-devrel/terraform-jenkins-ci-cd-oci/releases/latest/download/jenkins-stack-configuration.zip) file.
+2. [Login](https://cloud.oracle.com/resourcemanager/stacks/create) to Oracle Cloud Infrastructure to import the stack
+    > `Home > Developer Services > Resource Manager > Stacks > Create Stack`
+3. Upload the `jenkins-stack-configuration.zip` file that was downloaded earlier, and provide a name and description for the stack
+4. Configure the stack
+   1. **Jenkins username** - Provide a username for jenkins login
+   2. **Jenkins password** - Provide a password for jenkins login
+5. Review the information and click Create button.
+   > The upload can take a few seconds, after which you will be taken to the newly created stack
+6. On Stack details page, click on `Terraform Actions > Apply`
 
-[![Deploy to Oracle Cloud](https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg)](https://cloud.oracle.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-quickstart/oci-arch-jenkins/releases/download/v1.1/oci-arch-jenkins-stack-micro-latest.zip)
-
-Alternatively, you can download the stack for this solution from the **Releases** a section of this repository. Navigate to Oracle resource manager in the Oracle Cloud Infrastructure console. Here import the zip file as a new resource manager stack.You can now perform terraform actions like plan or apply.
-
-The stack exposes several variables that can be configured. By default the stack only prompts the user for the administrative password for Jenkins. Users can choose to use the advanced options to provide further configuration of the stack.
+The private ssh key for the Linux VM will be displayed along with the public ip of the server on the Application Information tab.
 
 ## Deploy Using the Terraform CLI
 
-### Clone the Module
-
+### Clone the Repository
 Now, you'll want a local copy of this repo. You can make that with the commands:
 
-```
-    git clone https://github.com/oracle-quickstart/oci-arch-theia-mds.git
-    cd oci-arch-theia-mds
+    git clone https://github.com/oracle-devrel/terraform-jenkins-ci-cd-oci
+    cd Jenkins-CI-CD-OCI
     ls
-```
 
-### Prerequisites
-First off, you'll need to do some pre-deploy setup.  That's all detailed [here](https://github.com/cloud-partners/oci-prerequisites).
-
-Create a `terraform.tfvars` file, and specify the following variables:
+2. Create a `terraform.tfvars` file, and specify the following variables:
 
 ```
 # Authentication
@@ -49,10 +63,12 @@ private_key_path     = "<pem_private_key_path>"
 # Region
 region = "<oci_region>"
 
-# Availablity Domain 
-availablity_domain_name = "<availablity_domain_name>"
+# Availability Domain 
+availability_domain_name = "<availability_domain_name>"
 
-````
+# Compartment
+compartment_ocid = "<compartment_ocid>"
+```
 
 ### Create the Resources
 Run the following commands:
@@ -61,22 +77,27 @@ Run the following commands:
     terraform plan
     terraform apply
 
-
-### Testing your Deployment
-After the deployment is finished, you can access WP-Admin by picking theia_wp-admin_url output and pasting into web browser window. You can also verify initial content of your blog by using jenkins_public_ip:
-
-````
-theia_wp-admin_url = http://193.122.198.19/wp-admin/
-jenkins_public_ip = 193.122.198.19
-`````
-
 ### Destroy the Deployment
 When you no longer need the deployment, you can run this command to destroy the resources:
 
     terraform destroy
 
-## Architecture Diagram
+## Contributing
+This project is open source.  Please submit your contributions by forking this repository and submitting a pull request!  Oracle appreciates any contributions that are made by the open source community.
 
-![](./images/architecture-deploy-theia-mds.png)
+## License
+Copyright (c) 2022 Oracle and/or its affiliates.
+
+Licensed under the Universal Permissive License (UPL), Version 1.0.
+
+See [LICENSE](LICENSE) for more details.
+
+ORACLE AND ITS AFFILIATES DO NOT PROVIDE ANY WARRANTY WHATSOEVER, EXPRESS OR IMPLIED, FOR ANY SOFTWARE, MATERIAL OR CONTENT OF ANY KIND CONTAINED OR PRODUCED WITHIN THIS REPOSITORY, AND IN PARTICULAR SPECIFICALLY DISCLAIM ANY AND ALL IMPLIED WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, AND FITNESS FOR A PARTICULAR PURPOSE.  FURTHERMORE, ORACLE AND ITS AFFILIATES DO NOT REPRESENT THAT ANY CUSTOMARY SECURITY REVIEW HAS BEEN PERFORMED WITH RESPECT TO ANY SOFTWARE, MATERIAL OR CONTENT CONTAINED OR PRODUCED WITHIN THIS REPOSITORY. IN ADDITION, AND WITHOUT LIMITING THE FOREGOING, THIRD PARTIES MAY HAVE POSTED SOFTWARE, MATERIAL OR CONTENT TO THIS REPOSITORY WITHOUT ANY REVIEW. USE AT YOUR OWN RISK. 
 
 
+[oci]: https://cloud.oracle.com
+[orm]: https://docs.cloud.oracle.com/iaas/Content/ResourceManager/Concepts/resourcemanager.htm
+[tf]: https://www.terraform.io
+[orm_landing]:https://www.oracle.com/cloud/systems-management/resource-manager/
+[magic_button]: https://oci-resourcemanager-plugin.plugins.oci.oraclecloud.com/latest/deploy-to-oracle-cloud.svg
+[magic_rm_stack]: https://cloud.oracle.com/resourcemanager/stacks/create?region=home&zipUrl=https://github.com/oracle-devrel/terraform-jenkins-ci-cd-oci/releases/latest/download/jenkins-stack-configuration.zip

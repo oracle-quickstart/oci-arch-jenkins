@@ -1,0 +1,16 @@
+"jenkinsQuickstarts.0005": {
+    "solutionExposure": "prod",
+    "name": "${Messages.solutionsHub.solutions.jenkinsQuickstarts.solutionName()}",
+    "description": "${Messages.solutionsHub.solutions.jenkinsQuickstarts.stackDescription()}",
+    "longDescription": {
+        "description": "${Messages.solutionsHub.solutions.jenkinsQuickstarts.longDescription()}"
+    },
+    "icon": {
+        "iconLine1": "Jenkins",
+        "iconLine2": "with",
+        "iconLine3": "Quickstarts"
+    },
+    "terraformVersion": "0.14.x",
+    "isFreeTier": false,
+	"categoryId": "0"
+}

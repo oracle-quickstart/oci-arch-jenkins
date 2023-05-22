@@ -3,6 +3,8 @@ version: '3'
 volumes:
   jenkins_home:
   jenkinsRef:
+  jenkins_agent_home:
+  jenkins_ssl:
 
 services:
   jenkins:
@@ -12,10 +14,29 @@ services:
       - 80:8080
     volumes:
       - jenkins_home:/var/jenkins_home
+      - "/home/opc/private:/var/jenkins_home/private"
       - jenkinsRef:/usr/share/jenkins/ref
       - "/home/opc/casc.yaml:/jenkins/config/casc.yaml"
+      # Use this volume mount for ssl/tls certificate issues
+      - jenkins_ssl:/etc/ssl
     environment:
       - JAVA_OPTS="-Djenkins.install.runSetupWizard=false"
+      - JENKINS_AGENT_SSH_PRIVKEY=/var/jenkins_home/private
       - JENKINS_ADMIN_ID=${jenkins_user}
       - JENKINS_ADMIN_PASSWORD=${jenkins_password}
       - CASC_JENKINS_CONFIG=/jenkins/config/casc.yaml
+
+  agent:
+    # java path /opt/java/openjdk/bin/java for agent configuration
+    image: jenkins/ssh-agent:jdk11
+    restart: always
+    volumes:
+      - jenkins_agent_home:/home/jenkins
+      - "/home/opc/.ssh/authorized_keys:/home/jenkins/.ssh/authorized_keys"
+      # Use this volume mount for ssl/tls certificate issues
+      - jenkins_ssl:/etc/ssl
+    expose:
+      - 22
+    environment:
+      # add the ssh-pub-key for ssh connection between controller/agent / same key that is used for ssh to VM
+      - JENKINS_AGENT_SSH_PUBKEY=/home/jenkins/.ssh/authorized_keys

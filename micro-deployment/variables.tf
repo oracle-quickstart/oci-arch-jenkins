@@ -23,7 +23,7 @@ variable "vcn_cidr" {
 ## Instance
 
 variable "instance_shape" {
-  default = "VM.Standard.E3.Flex"
+  default = "VM.Standard2.1"
 }
 variable "instance_ocpus" {
   default = 1
@@ -33,7 +33,7 @@ variable "instance_shape_config_memory_in_gbs" {
 }
 
 variable "label_prefix" {
-  default     = ""
+  default = ""
 }
 
 variable "instance_os" {
@@ -57,7 +57,7 @@ variable "public_ssh_key" {
 
 variable "jenkins_user" {
   description = "The username for Jenkins admin user"
-  default     = "admin"  
+  default     = "admin"
 }
 
 variable "jenkins_password" {
